@@ -268,6 +268,7 @@ int main(int argc, char **argv) {
 
    init_gpu();
 
+
    calcnorm(&norm, psi, tmpxi, tmpyi, tmpzi);
    calcmuen(&mu, &en, psi, psi_t, dpsi, dpsi_t, psidd2, psidd2fft, psidd2fft_t, tmpxi, tmpyi, tmpzi, tmpxj, tmpyj, tmpzj);
    calcrms(rms, psi, psi_t, tmpxi, tmpyi, tmpzi);
@@ -1075,6 +1076,7 @@ void initpot(double ***pot) {
    vlambda2 = vlambda * vlambda;
    vgamma2 = vgamma * vgamma;
 
+   #pragma omp parallel for private(cnti, cntj, cntk)
    for (cnti = 0; cnti < localNx; cnti ++) {
       for (cntj = 0; cntj < Ny; cntj ++) {
          for (cntk = 0; cntk < Nz; cntk ++) {
@@ -1318,7 +1320,7 @@ void calcmuen(double *mu, double *en, double complex ***psi, double complex ***p
                psi2 *= psi2;
                psi2lin = psi2 * g;
                psidd2lin = psidd2[cnti][cntj][cntk] * gd;
-               dpsi2 = dpsi[cnti][cntj][cntk];
+               dpsi2 = dpsi[cnti][cntj][cntk] / (3. - par);
                tmpzi[threadid][cntk] = (pot[cnti][cntj][cntk] + psi2lin + psidd2lin) * psi2 + dpsi2;
                tmpzj[threadid][cntk] = (pot[cnti][cntj][cntk] + 0.5 * psi2lin + 0.5 * psidd2lin) * psi2 + dpsi2;
             }
@@ -2100,6 +2102,8 @@ void calcnuluyluz(double complex ***psi, double ***psidd2, double ***pot, double
          calcluz_cpu(psi, cbeta);
       }
    }
+
+   return;
 }
 
 void outdenx(double complex ***psi, double **outx, double *tmpy, double *tmpz, MPI_File file) {
