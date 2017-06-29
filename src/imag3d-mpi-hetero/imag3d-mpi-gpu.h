@@ -5,7 +5,6 @@
 #include "../utils/cudamem.cuh"
 #include "../utils/cudautils.cuh"
 
-#define PITCH_ALIGNMENT 64
 #define MAX(a, b)             (a > b) ? a : b
 
 extern int nprocs;
