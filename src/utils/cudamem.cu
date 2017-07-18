@@ -445,7 +445,6 @@ void *alloc_mem_device(size_t size) {
    }
 
    return d_ptr;
-   //return alloc_complex_vector_device(size / sizeof(cuDoubleComplex));
 }
 
 void reset_mem_device() {

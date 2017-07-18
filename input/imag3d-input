@@ -258,7 +258,7 @@
 
 #  Grid size of CUDA kernels. This number is multiplied by the number of streaming
 #  processors. For example, kernel in time propagation step w.r.t. H2 will be launched
-#  with "<<<number of streaming processors * GRID2D_NU, BLOCK2D_LUX>>>"
+#  with "<<<number of streaming processors * GRID2D_LUX, BLOCK2D_LUX>>>"
 #  Required: yes
 #  Type: int
    GRID3D_DD2 = 1

@@ -124,7 +124,6 @@ void init_gpux_fft() {
       gpux_fft[cnti].psidd2x = (cudaPitchedPtr *) calloc(chunksNx_fft, sizeof(cudaPitchedPtr));
 
       gpux_fft[cnti].psix_h2d = (cudaMemcpy3DParms *) calloc(chunksNx_fft, sizeof(cudaMemcpy3DParms));
-      gpux_fft[cnti].psix_d2h = (cudaMemcpy3DParms *) calloc(chunksNx_fft, sizeof(cudaMemcpy3DParms));
 
       gpux_fft[cnti].psidd2fftx_d2h = (cudaMemcpy3DParms *) calloc(chunksNx_fft, sizeof(cudaMemcpy3DParms));
 
@@ -140,11 +139,6 @@ void init_gpux_fft() {
          gpux_fft[cnti].psix_h2d[cntj].dstPtr = gpux_fft[cnti].psix[cntj];
          gpux_fft[cnti].psix_h2d[cntj].extent = make_cudaExtent(Nz * sizeof(cuDoubleComplex), Ny, chunkNx_fft);
          gpux_fft[cnti].psix_h2d[cntj].kind = cudaMemcpyHostToDevice;
-
-         gpux_fft[cnti].psix_d2h[cntj].srcPtr = gpux_fft[cnti].psix[cntj];
-         gpux_fft[cnti].psix_d2h[cntj].dstPtr = make_cudaPitchedPtr(psi[cpuNx_fft + d_offsetNx + offsetNx][0], Nz * sizeof(cuDoubleComplex), Nz, Ny);
-         gpux_fft[cnti].psix_d2h[cntj].extent = make_cudaExtent(Nz * sizeof(cuDoubleComplex), Ny, chunkNx_fft);
-         gpux_fft[cnti].psix_d2h[cntj].kind = cudaMemcpyDeviceToHost;
 
          gpux_fft[cnti].psidd2fftx_d2h[cntj].srcPtr = gpux_fft[cnti].psidd2x[cntj];
          gpux_fft[cnti].psidd2fftx_d2h[cntj].dstPtr = make_cudaPitchedPtr(psidd2fft + ((cpuNx_fft + d_offsetNx + offsetNx) * Ny * (Nz2 + 1)), (Nz2 + 1) * sizeof(fftw_complex), Nz2 + 1, Ny);
@@ -576,7 +570,6 @@ void free_gpu() {
       free_mem_device();
 
       free(gpux_fft[cnti].psix_h2d);
-      free(gpux_fft[cnti].psix_d2h);
       free(gpux_fft[cnti].psidd2fftx_d2h);
 
       free(gpux_nyz[cnti].psix_h2d);
@@ -881,7 +874,7 @@ __global__ void calcpsidd2_kernel3(cudaPitchedPtr psidd2, cudaPitchedPtr psidd2_
       psidd2_0row = get_double_tensor_row(psidd2_0, 0, cntj);
 
       for (cntk = TID_X; cntk < d_Nz - 1; cntk += GRID_STRIDE_X) {
-         psidd2row[cntk] = psidd2_0row[cntk] / (d_Nx * d_Ny * d_Nz);
+         psidd2row[cntk] = psidd2_0row[cntk];
       }
    }
 }

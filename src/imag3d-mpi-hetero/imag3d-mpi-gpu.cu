@@ -914,7 +914,7 @@ __global__ void calcpsidd2_kernel3(cudaPitchedPtr psidd2, cudaPitchedPtr psidd2_
       psidd2_0row = get_double_tensor_row(psidd2_0, 0, cntj);
 
       for (cntk = TID_X; cntk < d_Nz - 1; cntk += GRID_STRIDE_X) {
-         psidd2row[cntk] = psidd2_0row[cntk] / (d_Nx * d_Ny * d_Nz);
+         psidd2row[cntk] = psidd2_0row[cntk];
       }
    }
 }

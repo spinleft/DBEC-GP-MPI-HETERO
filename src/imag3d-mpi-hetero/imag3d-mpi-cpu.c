@@ -1565,8 +1565,16 @@ void calcpsidd2_cpu_p2(fftw_complex *psidd2fft_t) {
 }
 
 void calcpsidd2_cpu_p3(double ***psidd2, fftw_complex *psidd2fft) {
+   long cntj, cntk;
 
    fftw_execute_dft_c2r(plan_backward_row, psidd2fft, **psidd2);
+
+   #pragma omp parallel for private(cntj, cntk) num_threads(nthreads - 1)
+   for (cntj = 0; cntj < Ny; cntj ++) {
+      for (cntk = 0; cntk < Nz; cntk ++) {
+         psidd2[0][cntj][cntk] /= Nx * Ny * Nz;
+      }
+   }
 
    return;
 }
@@ -1575,7 +1583,7 @@ void calcpsidd2_cpu_p4(double ***psidd2) {
    long cnti, cntj, cntk;
 
    #pragma omp parallel for private(cnti, cntj, cntk) num_threads(nthreads - 1)
-   for (cnti = 0; cnti < cpuNx_nyz; cnti ++) {
+   for (cnti = 1; cnti < cpuNx_nyz; cnti ++) {
       for (cntj = 0; cntj < Ny; cntj ++) {
          for (cntk = 0; cntk < Nz; cntk ++) {
             psidd2[cnti][cntj][cntk] /= Nx * Ny * Nz;
