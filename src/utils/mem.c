@@ -1,5 +1,5 @@
 /**
- * DBEC-GP-HETERO-MPI programs are developed by:
+ * DBEC-GP-MPI-HETERO programs are developed by:
  *
  * Vladimir Loncar, Antun Balaz
  * (Scientific Computing Laboratory, Institute of Physics Belgrade, Serbia)
