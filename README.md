@@ -15,7 +15,7 @@
 Programs are written in C programming language with OpenMP parallelization on host and CUDA on the GPU device. MPI is used for communication between processes running on different nodes. Sources are located in the [src](src/) folder, which has the following structure:
 
  - [src/imag3d-mpi-hetero](src/imag3d-mpi-hetero/) program solves the imaginary-time dipolar Gross-Pitaevskii equation in three spatial dimensions in an anisotropic harmonic trap.
- - [src/real3d-mpi](src/real3d-mpi-hetero/) program solves the real-time dipolar Gross-Pitaevskii equation in three spatial dimensions in an anisotropic harmonic trap.
+ - [src/real3d-mpi-hetero](src/real3d-mpi-hetero/) program solves the real-time dipolar Gross-Pitaevskii equation in three spatial dimensions in an anisotropic harmonic trap.
  - [src/utils](src/utils/) provides utility functions for transposing data, parsing of configuration files, integration and differentiation, as well as allocation/deallocation of memory.
 
 ### II) Input parameters
