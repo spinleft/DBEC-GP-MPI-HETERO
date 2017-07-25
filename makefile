@@ -33,6 +33,18 @@ OMPFLAGS = -fopenmp
 CLIBS = -lfftw3 -lm $(FFTW_LIBS) -lcudart
 OMPLIBS = -lfftw3_omp
 
+ifeq ($(compiler), icc)
+	# Intel MPI
+	CC = mpicc -cc=icc
+	# Open MPI
+	#CC = mpicc
+	CFLAGS = -O3 -xHOST -ipo -Wall
+	FFTW_PATH=$(HOME)/fftw/icc
+	FFTW_INCS=-I$(FFTW_PATH)/include
+	FFTW_LIBS=-L$(FFTW_PATH)/lib
+	OMPFLAGS = -qopenmp
+endif
+
 NVCC = nvcc
 NVCCFLAGS = -m64 -O3 -D_FORCE_INLINES
 

@@ -35,7 +35,7 @@ Programs are compiled via a provided `makefile`.
 
 The use of the makefile:
 
-    make <target> [transpose=fftw]
+    make <target> [compiler=icc] [transpose=fftw]
 
 where possible targets are:
 
@@ -45,7 +45,7 @@ as well as program-specific targets, which compile only a specified program:
 
     imag3d-mpi-hetero, real3d-mpi-hetero
 
-The provided makefile allows compilation of the DBEC-GP-MPI-HETERO programs, which rely on `mpicc` compiler being installed on the system. The `mpicc` compiler is provided with the MPI implementation and does not have to be installed separately.
+The provided makefile allows compilation of the DBEC-GP-MPI-HETERO programs, which rely on `mpicc` compiler being installed on the system. The `mpicc` compiler is provided with the MPI implementation and does not have to be installed separately. The special `compiler=icc` flag indicates that `mpicc` relies on Intel's C compiler, and should be used if MPI itself was compiled with it.
 
 Programs can perform data transposes in two ways: via built-in transpose routine, or via FFTW transpose interface. If FFTW is used for data transposes, additional `transpose=fftw` parameter should be passed to `make` command. If the built-in transpose routine is used, FFTW library without MPI support may be used.
 
